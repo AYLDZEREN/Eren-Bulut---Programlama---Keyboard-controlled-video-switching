@@ -1,0 +1,39 @@
+body{
+  margin:0;
+  background:#ffffff;   
+  color:#000000;
+  font-family: 'Times New Roman', Times, serif;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
+}
+
+
+.video-wrap{
+  position: relative;
+}
+
+
+video{
+    max-width: 90vw;   
+  max-height: 80vh;  
+  width: auto;
+  height: auto;
+  border-radius: 25px;
+  border: 8px solid #20a982;
+  background:#000;
+}
+
+
+#hint{
+  position:absolute;
+  top:10px;
+  left:50%;
+  transform:translateX(-50%);
+  padding:6px 10px;
+  font-size:16px;
+  background:#ffffff;
+  border:5px solid #20a982;
+  border-radius:25px;
+}
