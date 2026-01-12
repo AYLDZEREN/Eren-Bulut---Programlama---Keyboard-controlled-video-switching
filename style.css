@@ -1,13 +1,11 @@
-/* =========================
-   GENEL SAYFA
-========================= */
+
 body{
-  transform: scale(0.92);        /* %92 boyut */
+  transform: scale(0.92);        
   transform-origin: center;
   
   margin:0;
   height:100vh;
-  overflow:hidden;              /* animasyon taşmasın */
+  overflow:hidden;            
   background:#0b0f14;
   color:#ffffff;
 
