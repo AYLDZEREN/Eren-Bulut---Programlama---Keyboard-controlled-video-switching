@@ -2,62 +2,106 @@
 <html lang="tr">
 <head>
   <meta charset="UTF-8">
+  <title>Dual Sync Video Switch</title>
   <link rel="stylesheet" href="style.css">
-  <title>Video Klavye Kontrolü</title>
-  
 </head>
 <body>
 
-<div id="hint">A = Video 1  | B = Video 2</div>
+<div class="btnRow">
+  <button id="startBtn">Başlat</button>
+  <button id="toggleBtn" disabled>Durdur</button>
+</div>
 
-<video id="currentVideo" controls>
-  <source src="video1.mp4" type="video/mp4">
-</video>
+<div id="label">Kamera A Aktif</div>
+
+<div id="wrap">
+  <video id="videoA" src="video1.mp4"></video>
+  <video id="videoB" src="video2.mp4"></video>
+</div>
+
+<p class="hint">A ve B tuşlarına basarak kameralar arasında geçiş yapabilirsiniz</p>
 
 <script>
-  const currentVideo = document.getElementById('currentVideo');
-  const videos = ["video1.mp4", "video2.mp4"];
-  let index = 0;
+  const A = document.getElementById("videoA");
+  const B = document.getElementById("videoB");
+  const label = document.getElementById("label");
+  const startBtn = document.getElementById("startBtn");
+  const toggleBtn = document.getElementById("toggleBtn");
 
-  function switchVideo(newIndex){
-    if(newIndex === index) return; 
-   
-    const lastTime = currentVideo.currentTime;
-    const wasPaused = currentVideo.paused;
+  let running = false;
+  let paused = true;
+  let activeCam = "A";
 
-    index = newIndex;
-    currentVideo.src = videos[index];
+  startBtn.onclick = async () => {
+    try { await A.play(); } catch(e) {}
+    try { await B.play(); } catch(e) {}
 
+    A.muted = false;
+    B.muted = true;
 
-    currentVideo.addEventListener('loadedmetadata', function onLoad(){
-      currentVideo.removeEventListener('loadedmetadata', onLoad);
+    running = true;
+    paused = false;
 
-      currentVideo.currentTime = Math.min(
-        lastTime,
-        currentVideo.duration || lastTime
-      );
+    startBtn.disabled = true;
+    toggleBtn.disabled = false;
+    toggleBtn.innerText = "Durdur";
+  };
 
-      if(!wasPaused){
-        currentVideo.play().catch(()=>{});
-      }
-    });
+  function switchCam(cam) {
+    if (!running) return alert("Önce ▶ Başlat'a bas.");
+
+    activeCam = cam;
+
+    const ref = (cam === "A") ? A : B;
+    const t = ref.currentTime;
+
+    A.currentTime = t;
+    B.currentTime = t;
+
+    if (cam === "A") {
+      A.style.opacity = 1; B.style.opacity = 0;
+      A.muted = false;     B.muted = true;
+      label.innerText = "Kamera A Aktif";
+    } else {
+      A.style.opacity = 0; B.style.opacity = 1;
+      A.muted = true;      B.muted = false;
+      label.innerText = "Kamera B Aktif";
+    }
+
+    if (!paused) {
+      A.play().catch(()=>{});
+      B.play().catch(()=>{});
+    } else {
+      A.pause(); B.pause();
+    }
   }
 
+  toggleBtn.onclick = () => {
+    if (!running) return;
 
-  document.addEventListener('keydown', (e) => {
-    const key = e.key.toLowerCase();
-    if(key === 'a') switchVideo(0);
-    if(key === 'b') switchVideo(1);
-  });
+    if (!paused) {
+      paused = true;
+      A.pause(); B.pause();
+      toggleBtn.innerText = "Devam";
+    } else {
+      paused = false;
 
+      const ref = (activeCam === "A") ? A : B;
+      const t = ref.currentTime;
+      A.currentTime = t;
+      B.currentTime = t;
 
-  currentVideo.addEventListener('ended', () => {
-    index = (index + 1) % videos.length;
-    currentVideo.src = videos[index];
-    currentVideo.play().catch(()=>{});
+      A.play().catch(()=>{});
+      B.play().catch(()=>{});
+      toggleBtn.innerText = "Durdur";
+    }
+  };
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "a") switchCam("A");
+    if (e.key === "b") switchCam("B");
   });
 </script>
-
 
 </body>
 </html>
