@@ -18,7 +18,7 @@ body{
 
   font-family: Arial, sans-serif;
 
-  /* 🔴 ARKA PLAN GÖRSELİ */
+  
   background-image: url("bg.jpg");
   background-size: cover;
   background-position: center;
@@ -27,17 +27,13 @@ body{
 }
 
 
-/* =========================
-   ÖN PLAN KATMANLARI
-========================= */
+
 .btnRow, #wrap, .hint{
   position:relative;
   z-index:1;
 }
 
-/* =========================
-   BUTONLAR
-========================= */
+
 .btnRow{
   display:flex;
   gap:10px;
@@ -67,13 +63,10 @@ body{
   cursor:not-allowed;
 }
 
-/* =========================
-   SABİT AKTİF KAMERA YAZISI
-   (butonlara yakın, sabit)
-========================= */
+
 #label{
   position: fixed;
-  top: 62px;                    /* butonlara yanaşsın */
+  top: 62px;                    
   left: 50%;
   transform: translateX(-50%);
   z-index: 10;
@@ -86,30 +79,20 @@ body{
   backdrop-filter: blur(6px);
 }
 
-/* =========================
-   VIDEO PANELİ (KESİN DİKEY 9:16)
-   - genişlik yüksekliğe göre hesaplanır
-   - böylece panel asla yataylaşmaz
-========================= */
+
 #wrap{
   position: relative;
-
   height: 80vh;
   width: calc(80vh * 9 / 16);
   max-width: 92vw;
   max-height: 82vh;
-
-  /* 🔴 ÇERÇEVE KALINLIĞI (büyütür) */
-  padding: 18px;              /* 12-26 arası oynayabilirsin */
-
+  padding: 18px;              
   border-radius: 34px;
   overflow: hidden;
-
-  /* Dış çerçeve yüzeyi */
   background: rgba(255,255,255,0.06);
   border: 5px solid rgba(255,255,255,0.22);
 
-  /* Parlama + derinlik */
+
   box-shadow:
     0 18px 40px rgba(0,0,0,0.38),
     0 0 0 1px rgba(255,255,255,0.20),
@@ -127,7 +110,6 @@ body{
   border-radius: 34px;
   pointer-events:none;
 
-  /* Cam yansıması */
   background: linear-gradient(
     120deg,
     rgba(255,255,255,0.30) 0%,
@@ -140,7 +122,7 @@ body{
   opacity: .75;
 }
 
-/* Videolar üst üste */
+
 #wrap video{
   position:absolute;
   inset:0;
@@ -155,14 +137,11 @@ body{
 
   background:#000;
 }
-/* İlk başta B görünmesin */
+
 #videoB{
   opacity:0;
 }
 
-/* =========================
-   ALT İPUCU
-========================= */
 .hint{
   margin-top:14px;
   font-size:14px;
